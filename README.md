@@ -20,7 +20,9 @@ Before moving on, let's bundle and create our database.
 ### Release 0:  Seed the Database
 We have data from the Sunlight Foundation's Congress API on everyone who's served in the U.S. Congress (see `db/data/legislators.csv`).  We need to get that data into our database.  This means that we need to design a database schema to hold the data.  Then we need to write and run migrations to create the tables in our database.  And finally, we need to import the data in the CSV file into our database.
 
-Write the script for importing the data in the `db/seeds.rb` file.  Keep in mind that when we receive data, it is not guaranteed to be in perfect order, so we might want or need to *scrub* the data.  For example, we'll need to account for some legislators having no birthday.  And some political parties are denoted with an abbreviation (e.g. "I" for Independent) while others have the full party name provided (e.g. "Whig").
+Write the script for importing the data in the `db/seeds.rb` file. Use Ruby's CSV extension to parse the CSV file and create the necessary Legislator objects in your database. 
+
+Keep in mind that when we receive data, it is not guaranteed to be in perfect order, so we might want or need to *scrub* the data.  For example, we'll need to account for some legislators having no birthday.  And some political parties are denoted with an abbreviation (e.g. "I" for Independent) while others have the full party name provided (e.g. "Whig").
 
 *Hint:*  In designing the schema, consider all the data in a single row of the CSV file; there's data on the legislator, the represented state, and the political party.  Also, read through the releases, so you'll know what the expectations are.  
 
@@ -47,13 +49,14 @@ Add a feature that allows users to display a list of legislators who were born b
 ### Release 3: Combine In-office and Born-between
 We can display a list of legislators that are in office and a list of those born within a date range.  Combine the two, so that users can display a list of legislators who are both in office and born between two dates.  The output should include the legislators' full names including title and suffix, just as in *Releases 1 - 2*.
 
-*Hint:* Scopes are chainable.
 
 
 ### Release 4: Update the Legislator List Display
 Let's change how our lists are displayed.  In addition to a legislator's name, display the legislator's state abbreviation and political party (see Figure 2).  This change should affect the display for *Releases 1 - 3*.
 
 *Hint:*  [Eager loading][] helps us efficiently query the database for associated objects—for example, loading legislators with their states and parties.
+
+#### Eager loading does not work for this case as the states and parties are not associated objects, but contained within the class
 
 ```
 Rep. Diane Black (TN, Republican)
